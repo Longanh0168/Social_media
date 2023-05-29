@@ -14,7 +14,7 @@ import Posts from '../../components/posts/Posts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { makeRequest } from '../../axios';
 import { useLocation } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/authContext';
 import Update from '../../components/update/Update';
 
@@ -28,18 +28,19 @@ const Profile = () => {
     setIsVisible(!isVisible);
   };
 
-  const { isLoading, data } = useQuery(['user'], () =>
+  const queryClient = useQueryClient();
+
+  const { isLoading, data } = useQuery(['user', userId], () =>
     makeRequest.get('/users/find/' + userId).then((res) => {
       return res.data;
     }),
   );
 
-  const { isLoading: rIsLoading, data: relationshipData } = useQuery(['relationship'], () =>
+  const { isLoading: rIsLoading, data: relationshipData } = useQuery(['relationship', userId], () =>
     makeRequest.get('/relationships?followedUserId=' + userId).then((res) => {
       return res.data;
     }),
   );
-  const queryClient = useQueryClient();
 
   const mutation = useMutation(
     (following) => {
@@ -48,8 +49,7 @@ const Profile = () => {
     },
     {
       onSuccess: () => {
-        // Invalidate and refetch
-        queryClient.invalidateQueries(['relationship']);
+        queryClient.invalidateQueries(['relationship', userId]);
       },
     },
   );
@@ -57,6 +57,11 @@ const Profile = () => {
   const handleFollow = () => {
     mutation.mutate(relationshipData.includes(currentUser.id));
   };
+
+  useEffect(() => {
+    queryClient.invalidateQueries(['user', userId]);
+    queryClient.invalidateQueries(['relationship', userId]);
+  }, [userId, queryClient]);
 
   return (
     <div className="profile">

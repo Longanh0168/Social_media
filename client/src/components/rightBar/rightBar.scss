@@ -86,18 +86,17 @@
               color: white;
               cursor: pointer;
               border-radius: 4px;
-
-              &:first-child {
-                background-color: #5271ff;
-              }
-
-              &:last-child {
-                background-color: #f0544f;
-              }
+              background-color: #5271ff;
             }
             button:hover {
               opacity: 0.8;
             }
+          }
+
+          .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
           }
         }
       }

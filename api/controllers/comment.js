@@ -31,10 +31,10 @@ export const addComment = (req, res) => {
 };
 
 export const deleteComment = (req, res) => {
-  const token = req.cookies.access_token;
+  const token = req.cookies.accessToken;
   if (!token) return res.status(401).json('Not authenticated!');
 
-  jwt.verify(token, 'jwtkey', (err, userInfo) => {
+  jwt.verify(token, 'secretkey', (err, userInfo) => {
     if (err) return res.status(403).json('Token is not valid!');
 
     const commentId = req.params.id;
@@ -42,7 +42,7 @@ export const deleteComment = (req, res) => {
 
     db.query(q, [commentId, userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);
-      if (data.affectedRows > 0) return res.json('Comment has been deleted!');
+      if (data.affectedRows > 0) return res.status(200).json('Comment has been deleted!');
       return res.status(403).json('You can delete only your comment!');
     });
   });

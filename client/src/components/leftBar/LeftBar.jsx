@@ -22,7 +22,7 @@ import React from 'react';
 const LeftBar = () => {
   const { currentUser } = useContext(AuthContext);
 
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const handleClick = (index) => {
     if (index === activeIndex) {
@@ -41,7 +41,7 @@ const LeftBar = () => {
             <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }} onClick={handleScroll}>
               <HomeOutlinedIcon className="logo" />
             </Link>
-            <span>Trang chủ</span>
+            <span>Home page</span>
           </div>
           <Link
             to={'/profile/' + currentUser.id}

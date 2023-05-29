@@ -42,3 +42,4 @@ export const deleteRelationship = (req, res) => {
     });
   });
 };
+

@@ -11,6 +11,34 @@ export const getUser = (req, res) => {
     return res.json(info);
   });
 };
+
+export const getUsers = (req, res) => {
+  const q = 'SELECT id, name, profilePic FROM users';
+
+  db.query(q, (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.json(data);
+  });
+};
+
+export const getUserNotFollow = (req, res) => {
+  const userId = req.params.userId;
+  const q = 'SELECT id, name, profilePic FROM users WHERE id NOT IN (SELECT followedUserId FROM relationships WHERE followerUserId = ?) AND id != ?';
+  db.query(q, [userId, userId], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.json(data);
+  });
+};
+
+export const getUserFollowed = (req, res) => {
+  const userId = req.params.userId;
+  const q = 'SELECT users.id, users.name, users.profilePic FROM users INNER JOIN relationships ON users.id = relationships.followedUserId WHERE relationships.followerUserId = ?';
+  db.query(q, [userId], (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.json(data);
+  });
+};
+
 export const updateUser = (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Not authenticated!");

@@ -37,7 +37,7 @@ const Register = () => {
         <div className="right">
           <h1>KMA Social.</h1>
           <p>
-          helps you connect and share with the people in your life.
+          Share your story, inspire the world.
           </p>
           <span>Do you have an account?</span>
           <Link to="/login">
