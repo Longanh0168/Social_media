@@ -16,7 +16,7 @@ export const register = (req, res) => {
     const hashedPassword = bcrypt.hashSync(req.body.password, salt);
 
     const q = 'INSERT INTO users (`username`, `email`, `password`, `name`, `coverPic`, `profilePic`) VALUE (?)';
-    const values = [req.body.username, req.body.email, hashedPassword, req.body.name, "1684573427278images.png", "1684573427267no-avatar.png"];
+    const values = [req.body.username, req.body.email, hashedPassword, req.body.name, "no-background.png", "no-avatar.png"];
     db.query(q, [values], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json('User has been created.');

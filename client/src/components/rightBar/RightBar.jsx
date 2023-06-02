@@ -34,7 +34,7 @@ const RightBar = () => {
       <div className="container">
         <div className="item">
           <span>Suggestions For You</span>
-          {errorNotFollow ? 'Something went wrong!' : isLoadingNotFollow ? '' : 
+          {errorNotFollow ? 'Something went wrong!' : isLoadingNotFollow ? 'isLoading' : 
           userNotFollow.map((user) => (
               <Link 
                 className="user" key={user.id}
